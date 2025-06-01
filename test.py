@@ -8,13 +8,14 @@ news_article = 'https://news.qq.com/rain/a/20250416A08VD800'
 
 known_words = get_student_words(student_id)
 article = scrape_article(news_article)
+print(article)
 reformatted_article = reformat_article(article, known_words)
 
 new_words = get_unknown_words(reformatted_article, known_words)
 all_words = known_words + new_words
 
+with open('output.txt', 'w') as file:
+    print(reformatted_article, file = file)
+    print(new_words, file = file)
 
-print(reformatted_article)
-print(new_words)
-
-#update_student_words(student_id, all_words)
+update_student_words(student_id, all_words)

@@ -1,5 +1,7 @@
 import boto3
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
@@ -8,7 +10,10 @@ def scrape_article(url: str) -> str:
     chrome_options = Options()
     chrome_options.add_argument('--headless=new')
 
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=chrome_options
+    )
     driver.get(url)
     body = driver.find_element(By.XPATH, '/html/body')
     html_text = body.text
