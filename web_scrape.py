@@ -1,9 +1,21 @@
+import re
+from urllib.request import urlopen
 import boto3
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+
+
+
+#TODO Specific to QQ
+def get_frontpage_articles() -> list[str]:
+    url = 'https://www.qq.com/'
+    with urlopen(url) as res:
+        data = res.read().decode('utf-8')
+        reg_find = re.findall(r'https://news.qq.com/rain/a/\w+', data)
+        print(reg_find)
 
 #Uses AI :(
 def scrape_article(url: str) -> str:
