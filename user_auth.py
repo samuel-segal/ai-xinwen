@@ -1,9 +1,10 @@
 import boto3
 
-cognitoidp = boto3.client('cognito-idp')
+
 client_id = ''
 
 def user_sign_up(username, email, password):
+    cognitoidp = boto3.client('cognito-idp')
     kwargs = {
         'ClientId': client_id,
         'Username': username,

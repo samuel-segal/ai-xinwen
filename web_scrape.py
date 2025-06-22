@@ -1,3 +1,4 @@
+from random import randbytes
 import re
 from urllib.request import urlopen
 import boto3
@@ -15,7 +16,9 @@ def get_frontpage_articles() -> list[str]:
     with urlopen(url) as res:
         data = res.read().decode('utf-8')
         reg_find = re.findall(r'https://news.qq.com/rain/a/\w+', data)
-        print(reg_find)
+        return list(
+            set(reg_find)
+        )
 
 #Uses AI :(
 def scrape_article(url: str) -> str:
@@ -68,6 +71,27 @@ Output the entire article."""
 
     return response_text
 
+def add_frontpage_to_existing():
+    front_page_articles = get_frontpage_articles()
+    client = boto3.client('dynamodb')
+    for article_url in front_page_articles:
+        print()
+        print(article_url)
+        article_id = str(randbytes(20).hex())
+        article_text = scrape_article(article_url)
+        print(article_text)
+    
+        client.put_item(
+            TableName = 'untranslated_articles',
+            Item = {
+                'article_id': {'S': article_id},
+                'chinese_text': {'S': article_text},
+                'english_text': {'S': 'Translation unavailable'}, #TODO
+                'topic': {'S': 'general'}, #TODO
+                'url': {'S': article_url}
+            }
+        )
+
+
 if __name__ == '__main__':
-    article_text = scrape_article('https://news.qq.com/rain/a/20250416A052DT00')
-    print(article_text)
+    add_frontpage_to_existing()
