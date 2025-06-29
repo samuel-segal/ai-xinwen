@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Article page</title>
+    </head>
+    <body>
+        <script>
+            
+            function create_new_article(){
+                console.log('Hallo wórld')
+                fetch('/create',{
+                    'method': 'POST'
+                })
+            }
+            //Callback hell lol
+            //Would be nice to get a frontend engineer on this
+            fetch('/user_article_list')
+                .then((response)=>{
+                    response.json().then((article_list)=>{
+                        for(article of article_list){
+                            const para = document.createElement("p");
+                            para.innerText = article['text_chinese'];
+                            document.body.appendChild(para);
+                        }
+                    })
+                })
+
+        </script>
+        <p>
+            Articles
+        </p>
+        <button onclick="create_new_article()">
+            Create new article
+        </button>
+    </body>
+</html>

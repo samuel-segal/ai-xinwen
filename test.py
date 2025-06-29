@@ -5,7 +5,7 @@ from web_scrape import get_frontpage_articles, scrape_article
 
 get_frontpage_articles()
 
-student_id = 'bgq9ar'
+student_id = '8428d428-b011-7068-d08a-5f614a3586c2'
 news_article = 'https://news.qq.com/rain/a/20250416A08VD800'
 
 known_words = get_student_words(student_id)
@@ -15,7 +15,7 @@ reformatted_article = reformat_article(article, known_words)
 new_words = get_unknown_words(reformatted_article, known_words)
 all_words = known_words + new_words
 
-with open('output.txt', 'w') as file:
+with open('output.txt', 'w', encoding='utf-8') as file:
     print(reformatted_article, file = file)
     print(new_words, file = file)
 
